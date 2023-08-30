@@ -1,6 +1,16 @@
 <script lang="ts">
 	import ModeSwitcher from './lib/ModeSwitcher.svelte';
 	import Main from './pages/Main.svelte';
+	import Popup from './components/Popup.svelte';
+
+import {show} from './store/store';
+let show_value;
+function toggle(){
+    show.update((show)=>!show);
+}
+show.subscribe(
+	(value)=>{show_value= value;}
+);
 	type Notes ={
 		id:number,
 		title:string,
@@ -17,10 +27,13 @@ console.log("clicked");
 }
 </script>
 
+{#if show_value}
+<Popup/>
+{/if}  
+<main class="p-4 mx-auto text-center max-w-xl ">
 <ModeSwitcher />
-<main class="p-4 mx-auto text-center max-w-xl">
 
-<Main/>
+
 <div class="grid grid-cols-3 gap-4 ">	
 {#each arr as note, i}
 
@@ -34,38 +47,20 @@ console.log("clicked");
 
 {/each}
 </div>
-<div class="body">
-<div class="bg-white rounded-lg p-4 fixed popup">
-<div class="flex flex-col gap-10">
-	<input type="number" placeholder="ID" class="p-5 rounded-lg" id="id">
-	<input type="text" placeholder="Title" class="p-5 rounded-lg" id="title">
-	<input type="text" placeholder="Note" class="p-5 rounded-lg" id="note">
 
-</div>
-</div>
-</div>
 
 
 
 <div class="flex flex-col m-5 gap-5">
 	<h1>Add Note</h1> 
-	<button class="bg-blue-700  p-5  rounded-full font-mono text-3xl" on:click={clickHandler}>
+	<button class="bg-blue-700  p-5  rounded-full font-mono text-3xl" on:click={toggle}>
 	+
 </button>
 </div>
 </main>
 
 <style lang="postcss">
-	.body{
-		position: fixed;
-		height: 100vh;
-	}
-	.popup{
 	
-		
-
-
-	}
 	
 	.custom-style {
 		@apply italic;
