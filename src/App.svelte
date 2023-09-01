@@ -1,15 +1,18 @@
 <script lang="ts">
 	import ModeSwitcher from './lib/ModeSwitcher.svelte';
 	import Main from './pages/Main.svelte';
-	import Popup from './components/Popup.svelte';
+	import { Writable } from 'svelte/store';
+
+ 	import Popup from './components/Popup.svelte';
 
 import {show} from './store/store';
-let show_value;
+let show_value:boolean;
+
 function toggle(){
     show.update((show)=>!show);
 }
 show.subscribe(
-	(value)=>{show_value= value;}
+	(value)=>{show_value = value;}
 );
 	type Notes ={
 		id:number,
@@ -30,8 +33,12 @@ console.log("clicked");
 {#if show_value}
 <Popup/>
 {/if}  
-<main class="p-4 mx-auto text-center max-w-xl ">
 <ModeSwitcher />
+<body class=" h-screen">
+
+
+<main class="p-4 mx-auto my-6 text-center  bg-slate-500">
+
 
 
 <div class="grid grid-cols-3 gap-4 ">	
@@ -58,9 +65,11 @@ console.log("clicked");
 </button>
 </div>
 </main>
-
-<style lang="postcss">
-	
+</body>
+<style scoped lang="postcss">
+	main{
+		width: 90vw !important;
+	}
 	
 	.custom-style {
 		@apply italic;
