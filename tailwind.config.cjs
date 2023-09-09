@@ -9,7 +9,14 @@ const config = {
     extend: {
       colors: {
         svelte: '#ff3e00',
+        grey:'#9E9E9E',
+        emerald:'#2ecc71',
+        silver:'#bdc3c7',
+        grey2:'#95a5a6'
       },
+      borderRadius:{
+        'circle':'50%',
+      }
     },
   },
   plugins: [],
