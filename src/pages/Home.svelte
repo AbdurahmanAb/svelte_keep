@@ -1,6 +1,6 @@
 <script lang="ts">
     import Sidebar from "../components/Sidebar.svelte";
-    import Notes from "./Notes.svelte";
+    import Notes from "./AddNote.svelte";
 
 
 </script>

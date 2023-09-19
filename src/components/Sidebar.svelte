@@ -1,6 +1,6 @@
 <!-- @format -->
 <script lang="ts">
-  import { clicked } from "../store/toggle_store";
+  import { clicked } from "../store/store";
   let value: boolean;
 
   let num: number;

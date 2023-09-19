@@ -1,7 +1,7 @@
 <!-- @format -->
 <script lang="ts">
   import "iconify-icon";
-  import { clicked } from "../store/toggle_store";
+  import { clicked } from "../store/store";
   import { onMount } from "svelte";
   let popup: HTMLElement;
   let a: HTMLElement;

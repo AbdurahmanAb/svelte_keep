@@ -1,12 +1,17 @@
 <!-- @format -->
 <script lang="ts">
   import { afterUpdate, onDestroy, onMount } from "svelte";
+  import {notes,Notes} from '../store/store'
+    import NotesList from "../components/NotesList.svelte";
 
   let first: HTMLElement;
   let second: HTMLElement;
 
   let text: HTMLTextAreaElement;
   let title: HTMLInputElement;
+  let notelist=[];
+  let noteslength:number;
+
 
   onMount(() => {
     second.style.visibility = "hidden";
@@ -29,9 +34,29 @@
     }
   };
   const onChange = () => {
-    console.log("title is: " + title.value);
-    console.log("Content  is: " + text.value);
+    if(text.value != '' || title.value != ''){
+      const newNote:Notes = {
+      id:4,
+  title: title.value,
+  content: text.value,
+  created:new Date(),
+};
+notes.update((prevNotes)=>[...prevNotes, newNote] );
+   
+
+
+$:notes.subscribe((n)=> notelist = n)
+console.log(notelist); 
+noteslength = notelist.length   
+//console.log(notes)
+    title.value = '';
+    text.value =''
+
+    }
+
   };
+
+
   const onClick = () => {
     first.style.visibility = "hidden";
     second.style.visibility = "visible";
@@ -42,7 +67,7 @@
 
 <div class="w-full h-full flex flex-col">
   <div class=" flex justify-center items-start mb-10">
-    <div class="relative w-1/2 h-40" on:change={onChange}>
+    <div class="relative w-1/2 h-40" >
       <div class="relative" on:click={onClick} bind:this={first}>
         <input
           type="text"
@@ -56,7 +81,7 @@
       </div>
       <div
         class=" w-full absolute top-0 mt-9 rounded-lg shadow-box overflow-hidden"
-        bind:this={second}
+      bind:this={second}
       >
         <div class="relative" >
           <input
@@ -75,17 +100,36 @@
           class="resize-none w-full py-2 px-3 outline-none placeholder:font-semibold placeholder:text-gray-600 text-sm"
           placeholder="Take a note . . ."
         />
-        <div class="flex p-2 gap-5 text-xl">
-          <iconify-icon icon="bx:bell-plus" class="" />
+        <div class="flex p-2  items-center justify-between">
+         
+<div class="flex gap-5 text-xl">
+  <iconify-icon icon="bx:bell-plus" class="" />
+  <iconify-icon icon="fluent-mdl2:add-friend" class="" />
+  <iconify-icon icon="mdi:paint-outline" class="" />
+</div>
+       
 
-          <iconify-icon icon="fluent-mdl2:add-friend" class="" />
-          <iconify-icon icon="mdi:paint-outline" class="" />
+<button class="flex items-center gap-1 bg-blue-700 p-2 rounded-lg text-white font-bold" on:click={onChange}>
+  <iconify-icon icon="bi:save" class="" />
+  save 
+</button>
+
+
+
+         
         </div>
       </div>
     </div>
   </div>
-  <div class="text-center">
-    <iconify-icon icon="mdi:bulb-outline" class="text-9xl" />
-    <h1>Notes Will Be here</h1>
-  </div>
+  {#if noteslength > 0}
+   
+<NotesList/>
+
+    {:else}
+     <div class="text-center">
+        <iconify-icon icon="mdi:bulb-outline" class="text-9xl" />
+        <h1>Notes Will Be here</h1>
+      </div>
+   {/if}
+  
 </div>
